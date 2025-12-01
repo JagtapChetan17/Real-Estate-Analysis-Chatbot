@@ -129,7 +129,26 @@ const App = () => {
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-gray-50">
+    <div className="min-h-screen bg-gray-50">
+      {/* Desktop Header */}
+      {!isMobile && (
+        <header className="px-6 py-4 bg-white border-b border-gray-200">
+          <div className="flex items-center justify-center mb-2">
+            <div className="flex items-center justify-center w-10 h-10 mr-3 bg-blue-500 rounded-xl">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </div>
+            <h1 className="text-2xl font-bold text-blue-600">
+              EstateInsight AI
+            </h1>
+          </div>
+          <p className="text-sm text-center text-gray-600">
+            Smart Real Estate Analysis Powered by AI
+          </p>
+        </header>
+      )}
+
       {/* Mobile Header */}
       {isMobile && (
         <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-white border-b border-gray-200 shadow-sm lg:hidden">
@@ -166,27 +185,8 @@ const App = () => {
         </div>
       )}
 
-      {/* Desktop Header */}
-      {!isMobile && (
-        <header className="hidden px-6 py-4 text-center bg-white border-b border-gray-200 lg:block">
-          <div className="flex items-center justify-center mb-2">
-            <div className="flex items-center justify-center w-10 h-10 mr-3 bg-blue-500 rounded-xl">
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-            </div>
-            <h1 className="text-2xl font-bold text-blue-600">
-              EstateInsight AI
-            </h1>
-          </div>
-          <p className="text-sm text-gray-600">
-            Smart Real Estate Analysis Powered by AI
-          </p>
-        </header>
-      )}
-
-      <div className="flex h-full" style={{ 
-        height: isMobile ? 'calc(100vh - 64px)' : 'calc(100vh - 80px)'
+      <div className="flex" style={{ 
+        height: !isMobile ? 'calc(100vh - 80px)' : 'calc(100vh - 64px)'
       }}>
         {/* Upload Sidebar */}
         {(showUploadSidebar || !isMobile) && (

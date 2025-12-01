@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import MessageBubble from './MessageBubble'
 import AreaAutocomplete from './AreaAutocomplete'
 import Spinner from './Spinner'
-import { compareAreas } from '../api/api'
 
 const ChatWindow = ({
   messages,
@@ -99,83 +98,16 @@ const ChatWindow = ({
     if (!inputValue.trim() || isLoading) return
 
     const query = inputValue.trim()
-    setInputValue('')
-    
-    const userMessage = {
-      id: Date.now().toString(),
-      type: 'user',
-      content: query,
-      timestamp: new Date()
-    }
-    
-    // Note: setMessages should be passed from parent, not defined here
-    // Assuming it's handled in parent component
-    
     const parsedQuery = parseQuery(query)
     
-    if (parsedQuery.type === 'compare' && parsedQuery.area1 && parsedQuery.area2) {
-      try {
-        const result = await compareAreas(parsedQuery.area1, parsedQuery.area2)
-        
-        const botMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'bot',
-          content: `📊 Comparison between ${parsedQuery.area1} and ${parsedQuery.area2}:`,
-          comparison: result,
-          timestamp: new Date()
-        }
-        
-        // Note: setMessages should be passed from parent
-        // Assuming it's handled in parent component
-        
-      } catch (error) {
-        console.error('Comparison error:', error)
-        const errorMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'bot',
-          content: `❌ Error comparing areas. Please make sure both "${parsedQuery.area1}" and "${parsedQuery.area2}" exist in the dataset.`,
-          timestamp: new Date()
-        }
-        // Note: setMessages should be passed from parent
-        // Assuming it's handled in parent component
-      }
-    } else if (parsedQuery.type === 'price_growth') {
-      const userMessage = {
-        id: (Date.now() + 1).toString(),
-        type: 'user',
-        content: `Show price growth for ${parsedQuery.area}`,
-        area: parsedQuery.area,
-        timestamp: new Date()
-      }
-      
-      // Note: setMessages should be passed from parent
-      // Assuming it's handled in parent component
-      onAnalyze(parsedQuery.area)
-    } else if (parsedQuery.type === 'demand_trends') {
-      const userMessage = {
-        id: (Date.now() + 1).toString(),
-        type: 'user',
-        content: `Show demand trends for ${parsedQuery.area}`,
-        area: parsedQuery.area,
-        timestamp: new Date()
-      }
-      
-      // Note: setMessages should be passed from parent
-      // Assuming it's handled in parent component
-      onAnalyze(parsedQuery.area)
-    } else {
+    if (parsedQuery.type === 'analyze') {
       const area = parsedQuery.area
       if (area && area.trim()) {
+        setInputValue('')
         onAnalyze(area.trim())
       } else {
-        const errorMessage = {
-          id: (Date.now() + 1).toString(),
-          type: 'bot',
-          content: "❌ Please specify an area to analyze. Example: 'Analyze Wakad' or 'Show me data for Aundh'",
-          timestamp: new Date()
-        }
-        // Note: setMessages should be passed from parent
-        // Assuming it's handled in parent component
+        setInputValue('')
+        // Error handling should be done by parent component
       }
     }
   }
@@ -208,12 +140,13 @@ const ChatWindow = ({
         ref={messagesContainerRef}
         className="flex-1 p-4 space-y-4 overflow-y-auto bg-white"
         style={{ 
-          // Adjust padding for mobile to account for bottom navigation
-          paddingBottom: isMobile ? '140px' : '80px'
+          // Fix for desktop to prevent merging with taskbar
+          maxHeight: !isMobile ? 'calc(100vh - 210px)' : 'calc(100vh - 200px)',
+          paddingBottom: isMobile ? '140px' : '20px'
         }}
       >
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full px-4 text-gray-500">
+          <div className="flex flex-col items-center justify-center h-full px-4 text-gray-500" style={{ minHeight: '400px' }}>
             <div className="flex items-center justify-center w-16 h-16 mb-4 bg-blue-100 rounded-full">
               <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
@@ -314,13 +247,13 @@ const ChatWindow = ({
         <div ref={messagesEndRef} className="h-4" />
       </div>
 
-      {/* Input Area - Fixed positioning for mobile */}
+      {/* Input Area - Fixed for mobile, static for desktop */}
       <div className={`
         border-t border-gray-200 bg-white
-        ${isMobile ? 'fixed bottom-0 left-0 right-0' : 'relative'}
+        ${isMobile ? 'fixed bottom-0 left-0 right-0' : 'static'}
       `}
       style={{
-        // Position above the bottom navigation (64px is the bottom nav height)
+        // Position above the bottom navigation on mobile
         bottom: isMobile ? '64px' : '0'
       }}
       >
