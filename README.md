@@ -29,13 +29,7 @@ This project was created as a submission for the **Full Stack Developer Internsh
 
 **Creasophere Tech Private Limited (Sigma Value)**
 Role: Full Stack Developer Intern
-Location: Pune (Work from Office)
-Duration: 6 Months
-
-**Stipend Structure**
-
-* First 3 months: ₹7,500 per month
-* Next 3 months: ₹10,000 per month
+Location: Pune.
 
 Assessment Guidelines:
 The company provided a technical assignment titled *“Mini Real Estate Analysis Chatbot (React + Django)”* and instructed candidates to submit the completed assignment within 3 days of receiving it. The evaluation is based on code quality, functionality, UI/UX clarity, and adherence to requirements. Outstanding performers may also be considered for a full-time role upon internship completion.
