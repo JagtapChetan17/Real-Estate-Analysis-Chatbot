@@ -15,6 +15,11 @@ const App = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
   const [showUploadSidebar, setShowUploadSidebar] = useState(!(window.innerWidth < 1024))
 
+  // Update browser tab title
+  useEffect(() => {
+    document.title = "EstateInsight AI - Smart Real Estate Analysis"
+  }, [])
+
   useEffect(() => {
     loadAreas()
     const handleResize = () => {
@@ -124,21 +129,21 @@ const App = () => {
   }
 
   return (
-    <div className="h-screen bg-gray-50 overflow-hidden">
+    <div className="h-screen overflow-hidden bg-gray-50">
       {/* Mobile Header */}
       {isMobile && (
-        <div className="lg:hidden bg-white shadow-sm border-b border-gray-200 p-4 flex items-center justify-between sticky top-0 z-50">
+        <div className="sticky top-0 z-50 flex items-center justify-between p-4 bg-white border-b border-gray-200 shadow-sm lg:hidden">
           <div className="flex items-center space-x-3">
             <button
               onClick={toggleUploadSidebar}
-              className="p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+              className="p-2 text-white transition-colors bg-blue-500 rounded-lg hover:bg-blue-600"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
             </button>
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+              <div className="flex items-center justify-center w-8 h-8 bg-blue-500 rounded-lg">
                 <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
                 </svg>
@@ -163,9 +168,9 @@ const App = () => {
 
       {/* Desktop Header */}
       {!isMobile && (
-        <header className="hidden lg:block text-center py-4 px-6 bg-white border-b border-gray-200">
+        <header className="hidden px-6 py-4 text-center bg-white border-b border-gray-200 lg:block">
           <div className="flex items-center justify-center mb-2">
-            <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center mr-3">
+            <div className="flex items-center justify-center w-10 h-10 mr-3 bg-blue-500 rounded-xl">
               <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
@@ -174,7 +179,7 @@ const App = () => {
               EstateInsight AI
             </h1>
           </div>
-          <p className="text-gray-600 text-sm">
+          <p className="text-sm text-gray-600">
             Smart Real Estate Analysis Powered by AI
           </p>
         </header>
@@ -191,11 +196,11 @@ const App = () => {
           `}>
             {/* Mobile Sidebar Header */}
             {isMobile && (
-              <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white sticky top-0 z-10">
+              <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b border-gray-200">
                 <h2 className="text-lg font-semibold text-gray-800">Upload Data</h2>
                 <button
                   onClick={toggleUploadSidebar}
-                  className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+                  className="p-2 text-gray-600 transition-colors bg-gray-100 rounded-lg hover:bg-gray-200"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -205,22 +210,22 @@ const App = () => {
             )}
 
             {/* Sidebar Content */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 p-4 overflow-y-auto">
               <div className="space-y-4">
                 <UploadPanel onFileUpload={handleFileUpload} />
                 
                 {/* Areas List */}
-                <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <div className="p-4 bg-white border border-gray-200 rounded-lg">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-base font-semibold text-gray-800">
                       Available Areas
                     </h3>
                     <div className="flex items-center space-x-2">
-                      <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded font-medium">
+                      <span className="px-2 py-1 text-xs font-medium text-blue-800 bg-blue-100 rounded">
                         {areas.length}
                       </span>
                       {areas.length > 0 && (
-                        <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">
+                        <span className="px-2 py-1 text-xs text-green-800 bg-green-100 rounded">
                           Real Data
                         </span>
                       )}
@@ -228,31 +233,31 @@ const App = () => {
                   </div>
                   
                   {areas.length === 0 ? (
-                    <div className="text-center py-6 text-gray-500">
+                    <div className="py-6 text-center text-gray-500">
                       <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                       </svg>
                       <p className="text-sm">No areas available</p>
-                      <p className="text-xs mt-1 text-gray-400">Upload an Excel file to get started</p>
+                      <p className="mt-1 text-xs text-gray-400">Upload an Excel file to get started</p>
                     </div>
                   ) : (
-                    <div className="max-h-60 overflow-y-auto">
+                    <div className="overflow-y-auto max-h-60">
                       <div className="space-y-2">
                         {areas.map((area, index) => (
                           <button
                             key={index}
                             onClick={() => handleAnalyze(area)}
-                            className="w-full text-left p-3 rounded-lg hover:bg-blue-50 transition-colors border border-gray-100 text-sm text-gray-700 flex items-center justify-between hover:border-blue-200"
+                            className="flex items-center justify-between w-full p-3 text-sm text-left text-gray-700 transition-colors border border-gray-100 rounded-lg hover:bg-blue-50 hover:border-blue-200"
                           >
-                            <div className="flex items-center min-w-0 flex-1">
-                              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                            <div className="flex items-center flex-1 min-w-0">
+                              <div className="flex items-center justify-center flex-shrink-0 w-8 h-8 mr-3 bg-blue-100 rounded-lg">
                                 <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                 </svg>
                               </div>
-                              <span className="truncate font-medium">{area}</span>
+                              <span className="font-medium truncate">{area}</span>
                             </div>
-                            <svg className="w-4 h-4 text-gray-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="flex-shrink-0 w-4 h-4 ml-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                             </svg>
                           </button>
@@ -267,10 +272,10 @@ const App = () => {
         )}
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col min-w-0 h-full">
+        <div className="flex flex-col flex-1 h-full min-w-0">
           {/* View Tabs - Desktop */}
           {!isMobile && (
-            <div className="flex border-b border-gray-200 bg-white">
+            <div className="flex bg-white border-b border-gray-200">
               <button
                 onClick={() => setActiveView('chat')}
                 className={`flex-1 py-4 px-6 text-center font-medium transition-colors ${
@@ -330,7 +335,7 @@ const App = () => {
 
       {/* Mobile Bottom Navigation */}
       {isMobile && (
-        <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2 z-40">
+        <div className="fixed bottom-0 left-0 right-0 z-40 p-2 bg-white border-t border-gray-200 lg:hidden">
           <div className="flex justify-around">
             <button
               onClick={toggleUploadSidebar}
@@ -341,7 +346,7 @@ const App = () => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <span className="text-xs mt-1">Upload</span>
+              <span className="mt-1 text-xs">Upload</span>
             </button>
             
             <button
@@ -353,7 +358,7 @@ const App = () => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
-              <span className="text-xs mt-1">Chat</span>
+              <span className="mt-1 text-xs">Chat</span>
             </button>
             
             <button
@@ -365,7 +370,7 @@ const App = () => {
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
-              <span className="text-xs mt-1">Analysis</span>
+              <span className="mt-1 text-xs">Analysis</span>
             </button>
           </div>
         </div>

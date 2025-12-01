@@ -14,6 +14,7 @@ const ChatWindow = ({
 }) => {
   const [inputValue, setInputValue] = useState('')
   const messagesEndRef = useRef(null)
+  const messagesContainerRef = useRef(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -107,7 +108,8 @@ const ChatWindow = ({
       timestamp: new Date()
     }
     
-    setMessages(prev => [...prev, userMessage])
+    // Note: setMessages should be passed from parent, not defined here
+    // Assuming it's handled in parent component
     
     const parsedQuery = parseQuery(query)
     
@@ -123,7 +125,8 @@ const ChatWindow = ({
           timestamp: new Date()
         }
         
-        setMessages(prev => [...prev, botMessage])
+        // Note: setMessages should be passed from parent
+        // Assuming it's handled in parent component
         
       } catch (error) {
         console.error('Comparison error:', error)
@@ -133,7 +136,8 @@ const ChatWindow = ({
           content: `❌ Error comparing areas. Please make sure both "${parsedQuery.area1}" and "${parsedQuery.area2}" exist in the dataset.`,
           timestamp: new Date()
         }
-        setMessages(prev => [...prev, errorMessage])
+        // Note: setMessages should be passed from parent
+        // Assuming it's handled in parent component
       }
     } else if (parsedQuery.type === 'price_growth') {
       const userMessage = {
@@ -144,7 +148,8 @@ const ChatWindow = ({
         timestamp: new Date()
       }
       
-      setMessages(prev => [...prev, userMessage])
+      // Note: setMessages should be passed from parent
+      // Assuming it's handled in parent component
       onAnalyze(parsedQuery.area)
     } else if (parsedQuery.type === 'demand_trends') {
       const userMessage = {
@@ -155,7 +160,8 @@ const ChatWindow = ({
         timestamp: new Date()
       }
       
-      setMessages(prev => [...prev, userMessage])
+      // Note: setMessages should be passed from parent
+      // Assuming it's handled in parent component
       onAnalyze(parsedQuery.area)
     } else {
       const area = parsedQuery.area
@@ -168,7 +174,8 @@ const ChatWindow = ({
           content: "❌ Please specify an area to analyze. Example: 'Analyze Wakad' or 'Show me data for Aundh'",
           timestamp: new Date()
         }
-        setMessages(prev => [...prev, errorMessage])
+        // Note: setMessages should be passed from parent
+        // Assuming it's handled in parent component
       }
     }
   }
@@ -179,13 +186,13 @@ const ChatWindow = ({
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="relative flex flex-col h-full">
       {/* Mobile Chat Header */}
       {isMobile && (
-        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+        <div className="flex items-center justify-between p-4 bg-white border-b border-gray-200">
           <button
             onClick={onToggleSidebar}
-            className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+            className="p-2 text-gray-600 transition-colors bg-gray-100 rounded-lg hover:bg-gray-200"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -198,22 +205,24 @@ const ChatWindow = ({
 
       {/* Messages Container */}
       <div 
-        className="flex-1 overflow-y-auto p-4 space-y-4 bg-white"
+        ref={messagesContainerRef}
+        className="flex-1 p-4 space-y-4 overflow-y-auto bg-white"
         style={{ 
+          // Adjust padding for mobile to account for bottom navigation
           paddingBottom: isMobile ? '140px' : '80px'
         }}
       >
         {messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-gray-500 px-4">
-            <div className="w-16 h-16 mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center h-full px-4 text-gray-500">
+            <div className="flex items-center justify-center w-16 h-16 mb-4 bg-blue-100 rounded-full">
               <svg className="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
             </div>
-            <h3 className="text-lg font-bold text-gray-800 mb-2 text-center">
+            <h3 className="mb-2 text-lg font-bold text-center text-gray-800">
               Welcome to EstateInsight AI
             </h3>
-            <p className="text-gray-600 mb-6 text-sm text-center">
+            <p className="mb-6 text-sm text-center text-gray-600">
               {areas.length > 0 
                 ? `I found ${areas.length} real estate areas in your data. Ask me anything!`
                 : 'Upload an Excel file with real estate data or enter an area name to begin analysis.'
@@ -222,9 +231,9 @@ const ChatWindow = ({
             
             {areas.length > 0 && (
               <div className="w-full max-w-md">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <div className="p-4 mb-4 border border-blue-200 rounded-lg bg-blue-50">
                   <div className="flex items-center mb-3">
-                    <svg className="w-4 h-4 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                     <p className="text-sm font-semibold text-blue-800">
@@ -234,28 +243,28 @@ const ChatWindow = ({
                   <div className="space-y-2">
                     <button
                       onClick={() => setInputValue('Analyze Wakad')}
-                      className="w-full bg-white text-blue-700 px-3 py-2 rounded text-sm text-left hover:bg-blue-100 transition-colors border border-blue-200 hover:border-blue-300"
+                      className="w-full px-3 py-2 text-sm text-left text-blue-700 transition-colors bg-white border border-blue-200 rounded hover:bg-blue-100 hover:border-blue-300"
                     >
                       "Analyze Wakad"
                     </button>
                     <button
                       onClick={() => setInputValue('Compare Ambegaon Budruk and Aundh')}
-                      className="w-full bg-white text-blue-700 px-3 py-2 rounded text-sm text-left hover:bg-blue-100 transition-colors border border-blue-200 hover:border-blue-300"
+                      className="w-full px-3 py-2 text-sm text-left text-blue-700 transition-colors bg-white border border-blue-200 rounded hover:bg-blue-100 hover:border-blue-300"
                     >
                       "Compare Ambegaon Budruk and Aundh"
                     </button>
                     <button
                       onClick={() => setInputValue('Show price growth for Akurdi')}
-                      className="w-full bg-white text-blue-700 px-3 py-2 rounded text-sm text-left hover:bg-blue-100 transition-colors border border-blue-200 hover:border-blue-300"
+                      className="w-full px-3 py-2 text-sm text-left text-blue-700 transition-colors bg-white border border-blue-200 rounded hover:bg-blue-100 hover:border-blue-300"
                     >
                       "Show price growth for Akurdi"
                     </button>
                   </div>
                 </div>
 
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                <div className="p-4 border border-green-200 rounded-lg bg-green-50">
                   <div className="flex items-center mb-2">
-                    <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
@@ -268,7 +277,7 @@ const ChatWindow = ({
                       <button
                         key={index}
                         onClick={() => handleAreaSelect(area)}
-                        className="bg-white text-green-700 px-3 py-1 rounded text-xs font-medium hover:bg-green-100 transition-colors border border-green-200 hover:border-green-300"
+                        className="px-3 py-1 text-xs font-medium text-green-700 transition-colors bg-white border border-green-200 rounded hover:bg-green-100 hover:border-green-300"
                       >
                         {area}
                       </button>
@@ -291,13 +300,13 @@ const ChatWindow = ({
         
         {isLoading && (
           <div className="flex justify-start">
-            <div className="flex items-center space-x-2 bg-gray-50 rounded-lg px-4 py-3 max-w-xs border border-gray-200">
+            <div className="flex items-center max-w-xs px-4 py-3 space-x-2 border border-gray-200 rounded-lg bg-gray-50">
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
               </div>
-              <span className="text-gray-600 text-sm font-medium">Analyzing real data...</span>
+              <span className="text-sm font-medium text-gray-600">Analyzing real data...</span>
             </div>
           </div>
         )}
@@ -305,39 +314,54 @@ const ChatWindow = ({
         <div ref={messagesEndRef} className="h-4" />
       </div>
 
-      {/* Input Area */}
-      <div className="border-t border-gray-200 bg-white p-4">
-        <form onSubmit={handleSubmit} className="flex space-x-2">
-          <div className="flex-1">
-            <AreaAutocomplete
-              areas={areas}
-              value={inputValue}
-              onChange={setInputValue}
-              onAreaSelect={handleAreaSelect}
-              placeholder={areas.length > 0 
-                ? `Ask anything about real estate data...` 
-                : "Enter area name or ask a question..."}
-              isMobile={isMobile}
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={!inputValue.trim() || isLoading}
-            className="bg-blue-500 text-white rounded-lg px-4 py-3 font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors shadow-sm hover:shadow"
-          >
-            {isLoading ? (
-              <Spinner size="sm" color="text-white" />
-            ) : (
-              <>
-                <span className="hidden sm:inline">Send</span>
-                <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-                </svg>
-              </>
-            )}
-          </button>
-        </form>
+      {/* Input Area - Fixed positioning for mobile */}
+      <div className={`
+        border-t border-gray-200 bg-white
+        ${isMobile ? 'fixed bottom-0 left-0 right-0' : 'relative'}
+      `}
+      style={{
+        // Position above the bottom navigation (64px is the bottom nav height)
+        bottom: isMobile ? '64px' : '0'
+      }}
+      >
+        <div className="p-4">
+          <form onSubmit={handleSubmit} className="flex space-x-2">
+            <div className="flex-1">
+              <AreaAutocomplete
+                areas={areas}
+                value={inputValue}
+                onChange={setInputValue}
+                onAreaSelect={handleAreaSelect}
+                placeholder={areas.length > 0 
+                  ? `Ask anything about real estate data...` 
+                  : "Enter area name or ask a question..."}
+                isMobile={isMobile}
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={!inputValue.trim() || isLoading}
+              className="px-4 py-3 font-medium text-white transition-colors bg-blue-500 rounded-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 hover:shadow"
+            >
+              {isLoading ? (
+                <Spinner size="sm" color="text-white" />
+              ) : (
+                <>
+                  <span className="hidden sm:inline">Send</span>
+                  <svg className="w-4 h-4 sm:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                  </svg>
+                </>
+              )}
+            </button>
+          </form>
+        </div>
       </div>
+      
+      {/* Spacer for mobile to prevent content from being hidden behind input */}
+      {isMobile && (
+        <div style={{ height: '140px' }} />
+      )}
     </div>
   )
 }
