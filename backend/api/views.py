@@ -63,11 +63,6 @@ class UploadView(APIView):
                         status=status.HTTP_400_BAD_REQUEST
                     )
                 
-                # Debug information
-                print(f"📊 Dataset shape: {df.shape}")
-                print(f"📋 Dataset columns: {list(df.columns)}")
-                print(f"📍 Number of areas found: {len(areas)}")
-                
                 return Response({
                     "status": "success",
                     "message": f"File '{file.name}' uploaded successfully.",
@@ -204,18 +199,14 @@ class ExportView(APIView):
             filtered_df = filtered_df.reset_index(drop=True)
             
             if format == 'csv':
-                # Create CSV response
                 csv_data = filtered_df.to_csv(index=False, encoding='utf-8-sig')
                 response = HttpResponse(csv_data, content_type='text/csv; charset=utf-8')
                 response['Content-Disposition'] = f'attachment; filename="{area}_data.csv"'
-                response['Access-Control-Expose-Headers'] = 'Content-Disposition'
                 return response
                 
             elif format == 'excel':
-                # Create Excel response
                 output = io.BytesIO()
                 with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                    # Use safe sheet name
                     sheet_name = ''.join(c for c in area[:25] if c.isalnum() or c in (' ', '_')).strip() or 'data'
                     filtered_df.to_excel(writer, index=False, sheet_name=sheet_name)
                 
@@ -225,11 +216,9 @@ class ExportView(APIView):
                     content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 )
                 response['Content-Disposition'] = f'attachment; filename="{area}_data.xlsx"'
-                response['Access-Control-Expose-Headers'] = 'Content-Disposition'
                 return response
                 
             elif format == 'json':
-                # Convert to JSON
                 json_data = filtered_df.to_json(orient='records', date_format='iso', default_handler=str)
                 data = json.loads(json_data)
                 return JsonResponse(data, safe=False, json_dumps_params={'indent': 2})
@@ -241,9 +230,6 @@ class ExportView(APIView):
                 )
                 
         except Exception as e:
-            print(f"❌ Error exporting data: {str(e)}")
-            import traceback
-            traceback.print_exc()
             return Response(
                 {"error": f"Error exporting data: {str(e)}"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
