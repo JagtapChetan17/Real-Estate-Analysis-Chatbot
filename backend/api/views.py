@@ -14,6 +14,7 @@ from .utils import (
 )
 from .serializers import FileUploadSerializer
 
+
 class UploadView(APIView):
     def post(self, request):
         serializer = FileUploadSerializer(data=request.data)
@@ -92,6 +93,7 @@ class UploadView(APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 class AreasView(APIView):
     def get(self, request):
         try:
@@ -105,6 +107,7 @@ class AreasView(APIView):
                 {"error": f"Error loading areas: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
 
 class AnalyzeView(APIView):
     def get(self, request):
@@ -132,6 +135,7 @@ class AnalyzeView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class ChartView(APIView):
     def get(self, request):
         area = request.GET.get('area', '').strip()
@@ -151,6 +155,7 @@ class ChartView(APIView):
                 {"error": f"Error generating chart data: {str(e)}"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
 
 class TableView(APIView):
     def get(self, request):
@@ -172,6 +177,7 @@ class TableView(APIView):
                 {"error": f"Error getting table data: {str(e)}"}, 
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
 
 class ExportView(APIView):
     def get(self, request):
@@ -243,6 +249,7 @@ class ExportView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class CompareView(APIView):
     def get(self, request):
         area1 = request.GET.get('area1', '').strip()
@@ -263,6 +270,7 @@ class CompareView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class DatasetInfoView(APIView):
     def get(self, request):
         try:
@@ -274,6 +282,7 @@ class DatasetInfoView(APIView):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+
 class ClearDatasetView(APIView):
     def post(self, request):
         try:
@@ -284,6 +293,7 @@ class ClearDatasetView(APIView):
                 {"error": f"Error clearing dataset: {str(e)}"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
 
 class HealthCheckView(APIView):
     def get(self, request):

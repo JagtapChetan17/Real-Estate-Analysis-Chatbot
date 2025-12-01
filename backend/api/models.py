@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class DataSet(models.Model):
     name = models.CharField(max_length=255)
     file = models.FileField(upload_to='datasets/')
@@ -17,6 +18,7 @@ class DataSet(models.Model):
         verbose_name = "Dataset"
         verbose_name_plural = "Datasets"
 
+
 class AreaAnalysis(models.Model):
     dataset = models.ForeignKey(DataSet, on_delete=models.CASCADE, related_name='analyses')
     area_name = models.CharField(max_length=255)
@@ -31,6 +33,7 @@ class AreaAnalysis(models.Model):
         verbose_name = "Area Analysis"
         verbose_name_plural = "Area Analyses"
         unique_together = ['dataset', 'area_name']
+
 
 class QueryLog(models.Model):
     query_text = models.TextField()
