@@ -123,12 +123,12 @@ const AnalysisPanel = ({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full bg-gray-50 p-4">
+      <div className="flex items-center justify-center h-full p-4 bg-gray-50">
         <div className="text-center">
           <Spinner size="lg" />
-          <p className="mt-4 text-gray-600 font-medium">Analyzing real estate data for</p>
-          <p className="text-lg font-bold text-blue-600 mt-1">{area}</p>
-          <p className="text-sm text-gray-500 mt-2">Processing from uploaded Excel file...</p>
+          <p className="mt-4 font-medium text-gray-600">Analyzing real estate data for</p>
+          <p className="mt-1 text-lg font-bold text-blue-600">{area}</p>
+          <p className="mt-2 text-sm text-gray-500">Processing from uploaded Excel file...</p>
         </div>
       </div>
     )
@@ -136,19 +136,19 @@ const AnalysisPanel = ({
 
   if (!analysisData) {
     return (
-      <div className="flex items-center justify-center h-full bg-gray-50 p-4">
-        <div className="text-center text-gray-500 max-w-sm">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+      <div className="flex items-center justify-center h-full p-4 bg-gray-50">
+        <div className="max-w-sm text-center text-gray-500">
+          <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full">
             <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <h3 className="text-lg font-semibold mb-2 text-gray-700">No Analysis Data</h3>
-          <p className="text-gray-500 text-sm mb-4">Select an area to see detailed analysis</p>
+          <h3 className="mb-2 text-lg font-semibold text-gray-700">No Analysis Data</h3>
+          <p className="mb-4 text-sm text-gray-500">Select an area to see detailed analysis</p>
           {isMobile && (
             <button
               onClick={onBackToChat}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-600 transition-colors"
+              className="px-4 py-2 font-medium text-white transition-colors bg-blue-500 rounded-lg hover:bg-blue-600"
             >
               Back to Chat
             </button>
@@ -159,19 +159,19 @@ const AnalysisPanel = ({
   }
 
   return (
-    <div className="h-full flex flex-col bg-white">
+    <div className="flex flex-col h-full bg-white">
       {/* Mobile Header */}
       {isMobile && (
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <button
             onClick={onBackToChat}
-            className="p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 transition-colors"
+            className="p-2 text-gray-600 transition-colors bg-gray-100 rounded-lg hover:bg-gray-200"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
           </button>
-          <h2 className="text-lg font-semibold text-gray-800 truncate max-w-xs">
+          <h2 className="max-w-xs text-lg font-semibold text-gray-800 truncate">
             {area}
           </h2>
           <div className="w-10"></div>
@@ -180,33 +180,33 @@ const AnalysisPanel = ({
 
       {/* Desktop Header */}
       {!isMobile && (
-        <div className="border-b border-gray-200 p-6 bg-gray-50">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 lg:space-y-0">
+        <div className="p-6 border-b border-gray-200 bg-gray-50">
+          <div className="flex flex-col space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
             <div>
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center">
+                <div className="flex items-center justify-center w-10 h-10 bg-blue-500 rounded-xl">
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
                 </div>
                 <div>
-                  <h2 className="text-lg lg:text-xl font-bold text-gray-800">{area}</h2>
-                  <p className="text-gray-600 text-sm">
+                  <h2 className="text-lg font-bold text-gray-800 lg:text-xl">{area}</h2>
+                  <p className="text-sm text-gray-600">
                     Real estate analysis from uploaded Excel data
                   </p>
                 </div>
               </div>
             </div>
             <div className="flex flex-wrap gap-2">
-              <div className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1">
+              <div className="flex items-center px-2 py-1 space-x-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <span>Real Data</span>
               </div>
               {analysisData.key_metrics?.record_count && (
-                <div className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium flex items-center space-x-1">
+                <div className="flex items-center px-2 py-1 space-x-1 text-xs font-medium text-blue-800 bg-blue-100 rounded-full">
                   <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
@@ -219,7 +219,7 @@ const AnalysisPanel = ({
       )}
 
       {/* Tabs */}
-      <div className="border-b border-gray-200 bg-white">
+      <div className="bg-white border-b border-gray-200">
         <div className="flex overflow-x-auto scrollbar-thin">
           {['summary', 'chart', 'table', 'compare', 'export'].map((tab) => (
             <button
@@ -275,7 +275,7 @@ const AnalysisPanel = ({
 
       {/* Content */}
       <div 
-        className="flex-1 overflow-y-auto p-4 bg-white"
+        className="flex-1 p-4 overflow-y-auto bg-white"
         style={{ paddingBottom: isMobile ? '120px' : '20px' }}
       >
         {/* Export Success/Error Message */}
@@ -314,15 +314,15 @@ const AnalysisPanel = ({
         )}
 
         {activeTab === 'summary' && (
-          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 space-y-2 lg:space-y-0">
-              <h3 className="text-base font-semibold text-gray-800 flex items-center space-x-2">
+          <div className="p-4 bg-white border border-gray-200 rounded-lg md:p-6">
+            <div className="flex flex-col mb-4 space-y-2 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+              <h3 className="flex items-center space-x-2 text-base font-semibold text-gray-800">
                 <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
                 <span>AI Analysis Summary</span>
               </h3>
-              <span className="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-medium">
+              <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
                 <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -330,16 +330,16 @@ const AnalysisPanel = ({
               </span>
             </div>
             
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+            <div className="p-4 mb-4 border border-blue-200 rounded-lg bg-blue-50">
               <div className="flex items-start space-x-3">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="flex items-center justify-center flex-shrink-0 w-8 h-8 bg-blue-500 rounded-full">
                   <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <p className="text-blue-800 font-medium text-sm mb-2">AI Analysis</p>
-                  <p className="text-gray-700 leading-relaxed text-sm">
+                  <p className="mb-2 text-sm font-medium text-blue-800">AI Analysis</p>
+                  <p className="text-sm leading-relaxed text-gray-700">
                     {analysisData.ai_summary || "Generating AI analysis..."}
                   </p>
                 </div>
@@ -348,18 +348,18 @@ const AnalysisPanel = ({
             
             {analysisData.key_metrics && Object.keys(analysisData.key_metrics).length > 0 && (
               <div className="mt-6">
-                <h4 className="font-semibold text-gray-800 mb-3 text-sm flex items-center space-x-2">
+                <h4 className="flex items-center mb-3 space-x-2 text-sm font-semibold text-gray-800">
                   <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                   <span>Key Metrics</span>
                 </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                   {/* Price Metrics */}
                   {analysisData.key_metrics.price_data && Object.keys(analysisData.key_metrics.price_data).length > 0 && (
-                    <div className="bg-white border border-blue-100 rounded-lg p-4">
-                      <div className="flex items-center space-x-2 mb-3">
-                        <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <div className="p-4 bg-white border border-blue-100 rounded-lg">
+                      <div className="flex items-center mb-3 space-x-2">
+                        <div className="flex items-center justify-center w-8 h-8 bg-blue-100 rounded-lg">
                           <svg className="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                           </svg>
@@ -368,7 +368,7 @@ const AnalysisPanel = ({
                       </div>
                       <div className="space-y-2">
                         {Object.entries(analysisData.key_metrics.price_data).map(([key, value]) => (
-                          <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                          <div key={key} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                             <span className="text-sm text-gray-600 capitalize">
                               {key.replace('_weighted_average_rate', '').replace('_', ' ')}:
                             </span>
@@ -386,9 +386,9 @@ const AnalysisPanel = ({
                   
                   {/* Sales Metrics */}
                   {analysisData.key_metrics.sales_data && Object.keys(analysisData.key_metrics.sales_data).length > 0 && (
-                    <div className="bg-white border border-green-100 rounded-lg p-4">
-                      <div className="flex items-center space-x-2 mb-3">
-                        <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                    <div className="p-4 bg-white border border-green-100 rounded-lg">
+                      <div className="flex items-center mb-3 space-x-2">
+                        <div className="flex items-center justify-center w-8 h-8 bg-green-100 rounded-lg">
                           <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
@@ -397,7 +397,7 @@ const AnalysisPanel = ({
                       </div>
                       <div className="space-y-2">
                         {Object.entries(analysisData.key_metrics.sales_data).map(([key, value]) => (
-                          <div key={key} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
+                          <div key={key} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
                             <span className="text-sm text-gray-600 capitalize">
                               {key.replace('_igr', '').replace('_', ' ')}:
                             </span>
@@ -421,9 +421,9 @@ const AnalysisPanel = ({
         )}
 
         {activeTab === 'chart' && (
-          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
-            <div className="flex flex-col space-y-3 mb-4">
-              <h3 className="text-base font-semibold text-gray-800 flex items-center space-x-2">
+          <div className="p-4 bg-white border border-gray-200 rounded-lg md:p-6">
+            <div className="flex flex-col mb-4 space-y-3">
+              <h3 className="flex items-center space-x-2 text-base font-semibold text-gray-800">
                 <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
@@ -458,20 +458,20 @@ const AnalysisPanel = ({
             </div>
 
             {isChartLoading ? (
-              <div className="flex flex-col items-center justify-center h-48 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex flex-col items-center justify-center h-48 border border-gray-200 rounded-lg bg-gray-50">
                 <Spinner size="md" />
-                <span className="text-gray-600 mt-3 text-sm font-medium">Loading chart data...</span>
+                <span className="mt-3 text-sm font-medium text-gray-600">Loading chart data...</span>
               </div>
             ) : chartData ? (
               <div style={{ height: isMobile ? '300px' : '400px' }}>
                 <Chart data={chartData} type={chartType} area={area} isMobile={isMobile} />
               </div>
             ) : (
-              <div className="text-center text-gray-500 py-8 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="py-8 text-center text-gray-500 border border-gray-200 rounded-lg bg-gray-50">
                 <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <p className="text-sm font-medium mb-1 text-gray-600">No Chart Data</p>
+                <p className="mb-1 text-sm font-medium text-gray-600">No Chart Data</p>
                 <p className="text-xs text-gray-500">
                   No {chartType} data found for {area} in the uploaded file
                 </p>
@@ -481,32 +481,32 @@ const AnalysisPanel = ({
         )}
 
         {activeTab === 'table' && (
-          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 space-y-2 lg:space-y-0">
-              <h3 className="text-base font-semibold text-gray-800 flex items-center space-x-2">
+          <div className="p-4 bg-white border border-gray-200 rounded-lg md:p-6">
+            <div className="flex flex-col mb-4 space-y-2 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+              <h3 className="flex items-center space-x-2 text-base font-semibold text-gray-800">
                 <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                 </svg>
                 <span>Data Table</span>
               </h3>
-              <span className="inline-flex items-center px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs font-medium">
+              <span className="inline-flex items-center px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full">
                 Raw Excel Data
               </span>
             </div>
             
             {isTableLoading ? (
-              <div className="flex flex-col items-center justify-center h-32 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="flex flex-col items-center justify-center h-32 border border-gray-200 rounded-lg bg-gray-50">
                 <Spinner size="md" />
-                <span className="text-gray-600 mt-3 text-sm font-medium">Loading table data...</span>
+                <span className="mt-3 text-sm font-medium text-gray-600">Loading table data...</span>
               </div>
             ) : tableData ? (
               <DataTable data={tableData} area={area} isMobile={isMobile} />
             ) : (
-              <div className="text-center text-gray-500 py-8 bg-gray-50 rounded-lg border border-gray-200">
+              <div className="py-8 text-center text-gray-500 border border-gray-200 rounded-lg bg-gray-50">
                 <svg className="w-12 h-12 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                <p className="text-sm font-medium mb-1 text-gray-600">No Table Data</p>
+                <p className="mb-1 text-sm font-medium text-gray-600">No Table Data</p>
                 <p className="text-xs text-gray-500">
                   No table data found for {area}
                 </p>
@@ -516,17 +516,17 @@ const AnalysisPanel = ({
         )}
 
         {activeTab === 'compare' && (
-          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
-            <h3 className="text-base font-semibold text-gray-800 mb-4 flex items-center space-x-2">
+          <div className="p-4 bg-white border border-gray-200 rounded-lg md:p-6">
+            <h3 className="flex items-center mb-4 space-x-2 text-base font-semibold text-gray-800">
               <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
               </svg>
               <span>Compare Areas</span>
             </h3>
             
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <p className="text-blue-800 font-medium mb-2">Compare {area} with another area</p>
-              <div className="flex flex-col sm:flex-row gap-2">
+            <div className="p-4 mb-4 border border-blue-200 rounded-lg bg-blue-50">
+              <p className="mb-2 font-medium text-blue-800">Compare {area} with another area</p>
+              <div className="flex flex-col gap-2 sm:flex-row">
                 <input
                   type="text"
                   value={compareArea}
@@ -537,7 +537,7 @@ const AnalysisPanel = ({
                 <button
                   onClick={handleCompare}
                   disabled={!compareArea.trim() || comparing}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600 transition-colors"
+                  className="px-4 py-2 font-medium text-white transition-colors bg-blue-500 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-blue-600"
                 >
                   {comparing ? 'Comparing...' : 'Compare'}
                 </button>
@@ -547,25 +547,25 @@ const AnalysisPanel = ({
             {comparing ? (
               <div className="flex flex-col items-center justify-center h-32">
                 <Spinner size="md" />
-                <span className="text-gray-600 mt-3 text-sm font-medium">Comparing areas...</span>
+                <span className="mt-3 text-sm font-medium text-gray-600">Comparing areas...</span>
               </div>
             ) : comparisonResult ? (
               comparisonResult.error ? (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <div className="p-4 border border-red-200 rounded-lg bg-red-50">
                   <p className="text-red-800">{comparisonResult.error}</p>
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="bg-white border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-semibold text-gray-800 mb-3">
+                  <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                    <h4 className="mb-3 font-semibold text-gray-800">
                       Comparison: {comparisonResult.area1} vs {comparisonResult.area2}
                     </h4>
                     
                     {comparisonResult.comparison && Object.keys(comparisonResult.comparison).length > 0 ? (
                       <div className="space-y-3">
                         {Object.entries(comparisonResult.comparison).map(([key, data]) => (
-                          <div key={key} className="border-b border-gray-100 pb-3 last:border-b-0">
-                            <div className="flex justify-between items-center mb-2">
+                          <div key={key} className="pb-3 border-b border-gray-100 last:border-b-0">
+                            <div className="flex items-center justify-between mb-2">
                               <span className="font-medium text-gray-700 capitalize">
                                 {key.replace('_', ' ')}
                               </span>
@@ -605,7 +605,7 @@ const AnalysisPanel = ({
                 </div>
               )
             ) : (
-              <div className="text-center text-gray-500 py-8">
+              <div className="py-8 text-center text-gray-500">
                 <p>Enter an area name to compare with {area}</p>
               </div>
             )}
@@ -613,22 +613,22 @@ const AnalysisPanel = ({
         )}
 
         {activeTab === 'export' && (
-          <div className="bg-white rounded-lg border border-gray-200 p-4 md:p-6">
-            <h3 className="text-base font-semibold text-gray-800 mb-4 flex items-center space-x-2">
+          <div className="p-4 bg-white border border-gray-200 rounded-lg md:p-6">
+            <h3 className="flex items-center mb-4 space-x-2 text-base font-semibold text-gray-800">
               <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
               <span>Export Data</span>
             </h3>
             
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-              <p className="text-blue-800 font-medium mb-2">Download {area} data in your preferred format</p>
-              <p className="text-gray-600 text-sm mb-4">Export the filtered data for {area} for further analysis or sharing.</p>
+            <div className="p-4 mb-4 border border-blue-200 rounded-lg bg-blue-50">
+              <p className="mb-2 font-medium text-blue-800">Download {area} data in your preferred format</p>
+              <p className="mb-4 text-sm text-gray-600">Export the filtered data for {area} for further analysis or sharing.</p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
                 {[
-                  { format: 'csv', name: 'CSV', color: 'blue', description: 'Comma Separated Values', icon: '📊' },
-                  { format: 'excel', name: 'Excel', color: 'green', description: 'Microsoft Excel', icon: '📈' },
+                  // { format: 'csv', name: 'CSV', color: 'blue', description: 'Comma Separated Values', icon: '📊' },
+                  // { format: 'excel', name: 'Excel', color: 'green', description: 'Microsoft Excel', icon: '📈' },
                   { format: 'json', name: 'JSON', color: 'purple', description: 'JavaScript Object Notation', icon: '📄' }
                 ].map((item) => (
                   <button
@@ -649,7 +649,7 @@ const AnalysisPanel = ({
                       <span className="text-xl">{item.icon}</span>
                     </div>
                     <span className="font-medium text-gray-700">{item.name}</span>
-                    <span className="text-xs text-gray-500 mt-1 text-center">
+                    <span className="mt-1 text-xs text-center text-gray-500">
                       {item.description}
                     </span>
                   </button>
@@ -660,19 +660,19 @@ const AnalysisPanel = ({
             {exporting && (
               <div className="flex flex-col items-center justify-center p-6 border border-gray-200 rounded-lg bg-gray-50">
                 <Spinner size="md" />
-                <span className="ml-3 text-gray-600 mt-3">Preparing download...</span>
-                <p className="text-sm text-gray-500 mt-2">Exporting data for {area}</p>
+                <span className="mt-3 ml-3 text-gray-600">Preparing download...</span>
+                <p className="mt-2 text-sm text-gray-500">Exporting data for {area}</p>
               </div>
             )}
             
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mt-4">
+            <div className="p-4 mt-4 border border-yellow-200 rounded-lg bg-yellow-50">
               <div className="flex items-start">
                 <svg className="w-5 h-5 text-yellow-600 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 01118 0z" />
                 </svg>
                 <div>
                   <p className="text-sm font-medium text-yellow-800">Export Information</p>
-                  <p className="text-sm text-yellow-700 mt-1">
+                  <p className="mt-1 text-sm text-yellow-700">
                     The exported data will contain all records for <strong>{area}</strong> from your uploaded Excel file.
                     All original data formatting and values are preserved.
                   </p>

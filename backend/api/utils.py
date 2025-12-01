@@ -4,8 +4,6 @@ import os
 import tempfile
 from typing import Dict, List, Any, Optional
 import json
-
-# Global variable to store the current dataset
 _current_dataset = None
 _dataset_path = None
 
@@ -16,55 +14,45 @@ def load_dataset(path=None):
     try:
         if path and os.path.exists(path):
             print(f"Loading dataset from: {path}")
-            
-            # Read Excel with proper encoding
             df = pd.read_excel(path, engine='openpyxl')
             _dataset_path = path
-            print(f"✅ Loaded {len(df)} records from uploaded file")
+            print(f"Loaded {len(df)} records from uploaded file")
             
         elif _dataset_path and os.path.exists(_dataset_path):
             print(f"Loading dataset from cached path: {_dataset_path}")
             df = pd.read_excel(_dataset_path, engine='openpyxl')
             
         else:
-            print("❌ No dataset available. Please upload an Excel file.")
+            print("No dataset available. Please upload an Excel file.")
             return pd.DataFrame()
-        
-        # Basic validation
         if df.empty:
-            print("⚠️ Warning: Loaded dataset is empty")
+            print("Warning: Loaded dataset is empty")
             return df
         
-        # Store original column names for display
         original_columns = list(df.columns)
-        print(f"📋 Original columns: {original_columns}")
+        print(f"Original columns: {original_columns}")
         
-        # Normalize column names - remove spaces, convert to lowercase
         df.columns = [str(col).strip().lower().replace(' ', '_').replace('-', '_') for col in df.columns]
-        print(f"📋 Normalized columns: {list(df.columns)}")
+        print(f"Normalized columns: {list(df.columns)}")
         
-        # Ensure year column is integer if it exists
         if 'year' in df.columns:
             df['year'] = pd.to_numeric(df['year'], errors='coerce').fillna(0).astype(int)
         
-        # Clean numeric columns - remove commas and convert to numeric
         for col in df.columns:
             if df[col].dtype == 'object':
-                # Try to convert to numeric, removing commas
                 df[col] = pd.to_numeric(df[col].astype(str).str.replace(',', ''), errors='ignore')
         
-        # Convert final_location to string and strip whitespace
         if 'final_location' in df.columns:
             df['final_location'] = df['final_location'].astype(str).str.strip()
         
-        print(f"✅ Dataset loaded successfully: {len(df)} records")
-        print(f"📊 Sample data:\n{df.head(2)}")
+        print(f"Dataset loaded successfully: {len(df)} records")
+        print(f"Sample data:\n{df.head(2)}")
         
         _current_dataset = df
         return df
         
     except Exception as e:
-        print(f"❌ Error loading dataset: {e}")
+        print(f"Error loading dataset: {e}")
         import traceback
         traceback.print_exc()
         return pd.DataFrame()
@@ -79,29 +67,27 @@ def get_dataset():
 def filter_by_area(df, area):
     """Filter dataframe by area/locality"""
     if df.empty:
-        print(f"❌ Dataset is empty, cannot filter area: {area}")
+        print(f"Dataset is empty, cannot filter area: {area}")
         return pd.DataFrame()
         
     area_lower = str(area).lower().strip()
-    print(f"🔍 Searching for area: '{area}' (searching: '{area_lower}')")
+    print(f"Searching for area: '{area}' (searching: '{area_lower}')")
     
-    # Try different column names for area
     area_columns = ['final_location', 'locality', 'area', 'location']
     
     for col in area_columns:
         if col in df.columns:
             try:
-                # Case-insensitive search
                 mask = df[col].astype(str).str.lower().str.contains(area_lower, na=False)
                 filtered_df = df[mask]
                 if not filtered_df.empty:
-                    print(f"✅ Found {len(filtered_df)} records for area '{area}' in column '{col}'")
+                    print(f"Found {len(filtered_df)} records for area '{area}' in column '{col}'")
                     return filtered_df
             except Exception as e:
-                print(f"⚠️ Error filtering by {col}: {e}")
+                print(f"Error filtering by {col}: {e}")
                 continue
     
-    print(f"❌ No data found for area: {area}")
+    print(f"No data found for area: {area}")
     return pd.DataFrame()
 
 def get_unique_areas():
@@ -110,10 +96,9 @@ def get_unique_areas():
         df = get_dataset()
         
         if df.empty:
-            print("❌ Dataset is empty, no areas available")
+            print("Dataset is empty, no areas available")
             return []
         
-        # Try to find area column
         area_columns = ['final_location', 'locality', 'area', 'location']
         
         for col in area_columns:
@@ -121,13 +106,13 @@ def get_unique_areas():
                 areas = df[col].dropna().astype(str).str.strip().unique()
                 valid_areas = [area for area in areas if area and area != 'nan']
                 if valid_areas:
-                    print(f"✅ Found {len(valid_areas)} areas in column '{col}'")
+                    print(f"Found {len(valid_areas)} areas in column '{col}'")
                     return sorted(valid_areas)
         
         return []
         
     except Exception as e:
-        print(f"❌ Error getting unique areas: {e}")
+        print(f"Error getting unique areas: {e}")
         return []
 
 def generate_ai_summary(area, df):
@@ -162,7 +147,6 @@ def generate_ai_summary(area, df):
                 if len(sales_data) > 0:
                     summary_data['total_sales'] = float(sales_data.sum())
             
-            # Create prompt for AI
             prompt = f"""
             Analyze this real estate data for {area}:
             {summary_data}
@@ -189,7 +173,7 @@ def generate_ai_summary(area, df):
             return response.choices[0].message.content.strip()
             
     except Exception as e:
-        print(f"⚠️ OpenAI error, using fallback: {e}")
+        print(f"OpenAI error, using fallback: {e}")
     
     # Fallback to basic analysis
     return generate_basic_summary(area, df)
@@ -313,7 +297,7 @@ def generate_real_summary(area, df):
         }
         
     except Exception as e:
-        print(f"❌ Error generating summary: {e}")
+        print(f"Error generating summary: {e}")
         return {
             "summary": f"Error analyzing data for {area}.",
             "ai_summary": f"Unable to generate analysis for {area} due to data format issues.",
@@ -331,12 +315,10 @@ def generate_real_chart_data(area, chart_type='price'):
         if filtered_df.empty or 'year' not in filtered_df.columns:
             return {"labels": [], "datasets": [], "data_source": "no_data"}
         
-        # Group by year
         yearly_data = filtered_df.groupby('year')
         years = sorted(yearly_data.groups.keys())
         
         if chart_type == 'price':
-            # Price-related columns
             price_columns = [
                 'flat_weighted_average_rate', 'office_weighted_average_rate',
                 'shop_weighted_average_rate', 'others_weighted_average_rate'
@@ -344,10 +326,10 @@ def generate_real_chart_data(area, chart_type='price'):
             
             datasets = []
             colors = [
-                'rgba(59, 130, 246, 0.8)',    # Blue
-                'rgba(16, 185, 129, 0.8)',    # Green
-                'rgba(245, 158, 11, 0.8)',    # Yellow
-                'rgba(239, 68, 68, 0.8)'      # Red
+                'rgba(59, 130, 246, 0.8)',    
+                'rgba(16, 185, 129, 0.8)',    
+                'rgba(245, 158, 11, 0.8)',    
+                'rgba(239, 68, 68, 0.8)'      
             ]
             
             for i, col in enumerate(price_columns):
@@ -382,7 +364,6 @@ def generate_real_chart_data(area, chart_type='price'):
             }
         
         elif chart_type == 'demand':
-            # Demand/sales related columns
             demand_columns = [
                 'total_sales_igr', 'total_sold_igr', 'total_units',
                 'flat_sold_igr', 'office_sold_igr', 'shop_sold_igr'
@@ -390,12 +371,12 @@ def generate_real_chart_data(area, chart_type='price'):
             
             datasets = []
             colors = [
-                'rgba(59, 130, 246, 0.8)',    # Blue
-                'rgba(16, 185, 129, 0.8)',    # Green
-                'rgba(245, 158, 11, 0.8)',    # Yellow
+                'rgba(59, 130, 246, 0.8)',    
+                'rgba(16, 185, 129, 0.8)',    
+                'rgba(245, 158, 11, 0.8)',    
             ]
             
-            for i, col in enumerate(demand_columns[:3]):  # Limit to 3 datasets
+            for i, col in enumerate(demand_columns[:3]):  
                 if col in filtered_df.columns:
                     data = []
                     for year in years:
@@ -432,7 +413,6 @@ def generate_real_chart_data(area, chart_type='price'):
             }
         
         elif chart_type == 'composition':
-            # Property type composition
             composition_cols = ['flat_sold_igr', 'office_sold_igr', 'shop_sold_igr', 'others_sold_igr']
             
             latest_year = max(years) if years else None
@@ -470,7 +450,7 @@ def generate_real_chart_data(area, chart_type='price'):
         return {"labels": [], "datasets": [], "data_source": "no_matching_columns"}
         
     except Exception as e:
-        print(f"❌ Error generating chart data: {e}")
+        print(f"Error generating chart data: {e}")
         import traceback
         traceback.print_exc()
         return {"labels": [], "datasets": [], "data_source": "error"}
@@ -484,14 +464,11 @@ def get_real_table_data(area, limit=100, offset=0):
         if filtered_df.empty:
             return {"columns": [], "rows": [], "total": 0, "data_source": "no_data"}
         
-        # Convert to native Python types
         filtered_df = filtered_df.reset_index(drop=True)
         
-        # Pagination
         total = len(filtered_df)
         paginated_df = filtered_df.iloc[offset:offset + limit]
         
-        # Prepare columns for display
         display_columns = [
             'year', 'final_location', 'city', 'total_sales_igr', 'total_units',
             'flat_weighted_average_rate', 'office_weighted_average_rate',
@@ -499,7 +476,6 @@ def get_real_table_data(area, limit=100, offset=0):
             'shop_sold_igr'
         ]
         
-        # Only include columns that exist
         available_columns = [col for col in display_columns if col in paginated_df.columns]
         if not available_columns:
             available_columns = list(paginated_df.columns)[:10]
@@ -532,7 +508,7 @@ def get_real_table_data(area, limit=100, offset=0):
         }
         
     except Exception as e:
-        print(f"❌ Error getting table data: {e}")
+        print(f"Error getting table data: {e}")
         return {"columns": [], "rows": [], "total": 0, "data_source": "error"}
 
 def get_dataset_info():
@@ -554,7 +530,7 @@ def get_dataset_info():
         return info
         
     except Exception as e:
-        print(f"❌ Error getting dataset info: {e}")
+        print(f"Error getting dataset info: {e}")
         return {
             "loaded": False,
             "record_count": 0,
@@ -570,7 +546,7 @@ def clear_dataset():
     global _current_dataset, _dataset_path
     _current_dataset = None
     _dataset_path = None
-    print("🗑️ Dataset cleared")
+    print("Dataset cleared")
 
 def export_data(area, format='csv'):
     """Export filtered data for download"""
@@ -594,7 +570,7 @@ def export_data(area, format='csv'):
             return filtered_df.to_json(orient='records', date_format='iso')
             
     except Exception as e:
-        print(f"❌ Error exporting data: {e}")
+        print(f"Error exporting data: {e}")
         return None
 
 def compare_areas(area1, area2):
@@ -642,5 +618,5 @@ def compare_areas(area1, area2):
         return comparison
         
     except Exception as e:
-        print(f"❌ Error comparing areas: {e}")
+        print(f"Error comparing areas: {e}")
         return {"error": str(e)}

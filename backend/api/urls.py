@@ -5,7 +5,6 @@ from .views import (
     DatasetInfoView, ClearDatasetView, ExportView,
     CompareView
 )
-
 urlpatterns = [
     path('upload/', UploadView.as_view(), name='upload'),
     path('areas/', AreasView.as_view(), name='areas'),

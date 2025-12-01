@@ -21,14 +21,12 @@ class UploadView(APIView):
         if serializer.is_valid():
             file = serializer.validated_data['file']
             
-            # Validate file type
             if not file.name.endswith(('.xlsx', '.xls')):
                 return Response(
                     {"error": "Only Excel files (.xlsx, .xls) are supported"}, 
                     status=status.HTTP_400_BAD_REQUEST
                 )
             
-            # Validate file size (max 10MB)
             if file.size > 10485760:
                 return Response(
                     {"error": "File size too large. Maximum size is 10MB."},
@@ -36,25 +34,22 @@ class UploadView(APIView):
                 )
             
             try:
-                # Create temporary file
                 file_extension = os.path.splitext(file.name)[1]
                 with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension) as temp_file:
                     for chunk in file.chunks():
                         temp_file.write(chunk)
                     temp_path = temp_file.name
                 
-                print(f"📁 Uploading file: {file.name}")
+                print(f"Uploading file: {file.name}")
                 
-                # Load dataset from uploaded file
                 df = load_dataset(temp_path)
                 areas = get_unique_areas()
                 
-                # Clean up temp file
                 try:
                     os.unlink(temp_path)
-                    print(f"🗑️ Temporary file deleted: {temp_path}")
+                    print(f"Temporary file deleted: {temp_path}")
                 except Exception as e:
-                    print(f"⚠️ Could not delete temp file: {e}")
+                    print(f"Could not delete temp file: {e}")
                 
                 if df.empty:
                     return Response(
@@ -63,9 +58,9 @@ class UploadView(APIView):
                     )
                 
                 # Debug information
-                print(f"📊 Dataset shape: {df.shape}")
-                print(f"📋 Dataset columns: {list(df.columns)}")
-                print(f"📍 Number of areas found: {len(areas)}")
+                print(f"Dataset shape: {df.shape}")
+                print(f"Dataset columns: {list(df.columns)}")
+                print(f"Number of areas found: {len(areas)}")
                 
                 return Response({
                     "status": "success",
@@ -77,7 +72,7 @@ class UploadView(APIView):
                 })
                 
             except Exception as e:
-                # Clean up temp file if it exists
+                
                 if 'temp_path' in locals():
                     try:
                         os.unlink(temp_path)
@@ -194,11 +189,9 @@ class ExportView(APIView):
                     status=status.HTTP_404_NOT_FOUND
                 )
             
-            # Reset index and clean column names for export
             filtered_df = filtered_df.reset_index(drop=True)
             
             if format == 'csv':
-                # Create CSV response
                 csv_data = filtered_df.to_csv(index=False, encoding='utf-8-sig')
                 response = HttpResponse(csv_data, content_type='text/csv; charset=utf-8')
                 response['Content-Disposition'] = f'attachment; filename="{area}_data.csv"'
@@ -206,10 +199,8 @@ class ExportView(APIView):
                 return response
                 
             elif format == 'excel':
-                # Create Excel response
                 output = io.BytesIO()
                 with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                    # Use safe sheet name
                     sheet_name = ''.join(c for c in area[:25] if c.isalnum() or c in (' ', '_')).strip() or 'data'
                     filtered_df.to_excel(writer, index=False, sheet_name=sheet_name)
                 
@@ -223,7 +214,6 @@ class ExportView(APIView):
                 return response
                 
             elif format == 'json':
-                # Convert to JSON
                 json_data = filtered_df.to_json(orient='records', date_format='iso', default_handler=str)
                 data = json.loads(json_data)
                 return JsonResponse(data, safe=False, json_dumps_params={'indent': 2})
@@ -235,7 +225,7 @@ class ExportView(APIView):
                 )
                 
         except Exception as e:
-            print(f"❌ Error exporting data: {str(e)}")
+            print(f"Error exporting data: {str(e)}")
             import traceback
             traceback.print_exc()
             return Response(
