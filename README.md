@@ -1,92 +1,72 @@
-# Real Estate Analysis Chatbot – React + Django Project
+# Real Estate Analysis Chatbot – React + Django
 
-A full-stack AI-style real estate analytics chatbot application built using **React (frontend)** and **Django + Pandas (backend)**.
-The system processes locality-wise real estate data from an Excel file and returns:
+A full-stack real estate analytics chatbot application built using React (frontend) and Django + Pandas (backend). The system processes locality-wise real estate data from an Excel file and returns analytical insights including:
 
-* AI-style summary
+* Natural-language summaries
 * Price trend charts
-* Demand/Supply insights
-* Clean data tables
+* Demand and supply insights
+* Structured data tables
 
-Built as part of the **Full Stack Developer Assignment**.
-
----
-
-## 🚀 Features Overview
-
-### 🧠 Chatbot Features
-
-* User can chat with the system using plain text
-* “Analyze <locality>” triggers data analysis
-* Excel data loaded in backend
-* Locality-based summary generation
-* Smooth AI-typing animation
-* Mobile-friendly UI
-
-### 📊 Data Analysis Features
-
-* Read `.xlsx` dataset dynamically
-* Filter localities (Wakad, Baner, Viman Nagar etc.)
-* Generate summary (price movement, demand, supply trends)
-* Prepare chart datasets
-* Year-wise aggregation
-
-### 🎨 UI / UX Features
-
-* WhatsApp-style chat interface
-* Bubble-based messages (User + Bot)
-* Chart cards
-* Summary cards
-* Data table with stripes
-* Responsive layout
+This project was developed as part of a technical assignment for **Creasophere Tech Private Limited (SigmaValue)** under the **Full Stack Development Internship** process.
 
 ---
 
-## 🔐 Backend Features (Django + Pandas)
+## Live Project Link
 
-* Django REST API
-* Single analysis endpoint
-* Pandas for dataset filtering
-* Data cleaning + calculations
-* Error handling for invalid localities
-* Structured JSON response
+**Frontend Deployment:**
+[https://real-estate-analysis-chatbot-green.vercel.app/](https://real-estate-analysis-chatbot-green.vercel.app/)
 
----
+## Project Demo Video
 
-## 🧱 Project Structure
-
-```
-REAL_ESTATE_CHATBOT/
-│
-├── backend/
-│   ├── analyzer/
-│   │   ├── views.py
-│   │   ├── urls.py
-│   │   └── utils.py
-│   ├── realestate_api/
-│   │   ├── settings.py
-│   │   └── urls.py
-│   ├── dataset.xlsx
-│   ├── manage.py
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── utils/
-│   │   ├── styles/
-│   │   └── App.jsx
-│   └── package.json
-│
-└── README.md
-```
+**Video Demonstration:**
+[https://drive.google.com/file/d/1k0-ahM5RqB7eQFpYWmrCRkVeAQ2Cy9MN/view?usp=sharing](https://drive.google.com/file/d/1k0-ahM5RqB7eQFpYWmrCRkVeAQ2Cy9MN/view?usp=sharing)
 
 ---
 
-# 🛠️ Backend (Django + Pandas)
+# Assignment Information (Professional Summary)
 
-## 📌 Technologies Used
+This project was created as a submission for the **Full Stack Developer Internship** assignment provided by:
+
+**Creasophere Tech Private Limited (Sigma Value)**
+Role: Full Stack Developer Intern
+Location: Pune.
+
+Assessment Guidelines:
+The company provided a technical assignment titled *“Mini Real Estate Analysis Chatbot (React + Django)”* and instructed candidates to submit the completed assignment within 3 days of receiving it. The evaluation is based on code quality, functionality, UI/UX clarity, and adherence to requirements. Outstanding performers may also be considered for a full-time role upon internship completion.
+
+---
+
+# Features Overview
+
+## Chatbot Features
+
+* Natural text input support.
+* “Analyze <locality>” triggers automatic data processing.
+* AI-styled response formatting.
+* Smooth typing animation for enhanced interaction.
+* Fully responsive and mobile-friendly interface.
+
+## Data Analysis Features
+
+* Excel dataset ingestion using Pandas.
+* Locality-based filtering (e.g., Wakad, Baner, Viman Nagar).
+* Summary generation for price movement, demand, and supply trends.
+* Chart-ready datasets returned through API.
+* Year-wise aggregation and data cleaning.
+
+## UI/UX Features
+
+* WhatsApp-style chat interface.
+* Bubble-based message design.
+* Summary and chart cards.
+* Striped data table.
+* Clean, modern layout with responsive components.
+
+---
+
+# Backend (Django + Pandas)
+
+## Technologies Used
 
 * Django
 * Django REST Framework
@@ -97,11 +77,11 @@ REAL_ESTATE_CHATBOT/
 
 ---
 
-## 🔗 API Endpoints (Backend)
+## API Endpoint
 
-### **Analysis Route** `/api/analyze/`
+### POST `/api/analyze/`
 
-#### Request (POST)
+#### Request
 
 ```
 {
@@ -113,10 +93,10 @@ REAL_ESTATE_CHATBOT/
 
 ```
 {
-  "summary": "Wakad shows increasing price trends ...",
+  "summary": "Wakad shows increasing price trends...",
   "chartData": {
-      "years": [...],
-      "prices": [...]
+    "years": [...],
+    "prices": [...]
   },
   "tableData": [...]
 }
@@ -124,80 +104,52 @@ REAL_ESTATE_CHATBOT/
 
 ---
 
-# 📊 Data Processing Workflow
+# Data Processing Workflow
 
-### 1. Load Excel File
-
-Backend loads dataset using Pandas.
-
-### 2. Filter Locality
-
-Example: Wakad → filter rows containing that locality.
-
-### 3. Prepare Summary
-
-Average prices, new launches, demand/supply insights.
-
-### 4. Prepare Chart Data
-
-Year-wise price & demand.
-
-### 5. Return JSON Response
-
-Frontend receives → renders charts + summary.
+1. Load Excel dataset using Pandas.
+2. Filter entries based on the requested locality.
+3. Generate statistical summary.
+4. Prepare chart datasets (price, demand, supply trends).
+5. Return structured JSON to frontend.
 
 ---
 
-# 📦 Backend Setup
-
-### 1. Install Dependencies
+# Backend Setup
 
 ```
 cd backend
 pip install -r requirements.txt
-```
-
-### 2. Run Backend Server
-
-```
 python manage.py runserver
 ```
 
-Backend runs at:
-[http://localhost:8000](http://localhost:8000)
+Runs at:
+[http://localhost:8000/](http://localhost:8000/)
 
 ---
 
-# 🎨 Frontend (React.js)
+# Frontend (React.js)
 
-## 📌 Technologies Used
+## Technologies Used
 
 * React
 * Axios
 * Tailwind CSS
 * Recharts / Chart.js
-* Vite / CRA
+* Vite (Recommended)
 
 ---
 
-# 🖥️ Frontend Pages
+## Frontend Pages
 
-### Chat Interface
-
-* Message Input
-* User bubble
-* Bot bubble
-* Typing animation
-
-### Results Section
-
-* Summary card
-* Line chart
-* Data table
+* Chat interface with message bubbles
+* AI-style typing indicator
+* Summary display section
+* Trend charts
+* Data table section
 
 ---
 
-# 🧩 Frontend Setup
+## Frontend Setup
 
 ```
 cd frontend
@@ -205,69 +157,64 @@ npm install
 npm run dev
 ```
 
-Frontend runs at:
-[http://localhost:5173](http://localhost:5173)
+Runs at:
+[http://localhost:5173/](http://localhost:5173/)
 
 ---
 
-# 🔌 API Communication Flow
+# API Communication Flow
 
-### 1. User sends query from frontend
-
-### 2. Axios makes POST request to Django
-
-### 3. Django processes Excel
-
-### 4. Returns summary + charts
-
-### 5. React renders UI components
+1. User submits locality query through chat.
+2. Axios sends request to Django backend.
+3. Backend processes the Excel dataset.
+4. Summary, chart data, and tables are returned.
+5. Frontend renders the analytical results.
 
 ---
 
-# 🔐 Error Handling
+# Error Handling
 
-* Invalid locality → Bot returns “Location not found”
-* Missing dataset → API exception
-* API failure → front-end snackbar alert
+* Invalid locality: appropriate error message returned.
+* Dataset errors: backend exception handled.
+* API failure: frontend displays alert/notification.
 
 ---
 
-# 📈 Charts & Data Table
+# Charts and Data table
 
 **Charts include:**
 
-* Year-wise price trend
-* Demand trend
-* Supply trend
+* Year-wise price trends
+* Demand trends
+* Supply trends
 
 **Table includes:**
 
-* Price
+* Year
+* Average price
 * Demand
 * Inventory
 * Units sold
 
 ---
 
-# 📦 Deployment Guide
+# Deployment Guide
 
-### Frontend
+## Frontend
 
-* Deploy on Netlify / Vercel
-* Add env API base URL
+Deploy on Vercel or Netlify. Add API base URL via environment variables.
 
-### Backend
+## Backend
 
-* Deploy on Render / Railway
-* Use CORS whitelist
-* Keep dataset.xlsx in server
+Deploy using Render or Railway.
+CORS must be configured. Dataset file must be included on server.
 
 ---
 
-# ✔️ Final Notes
+# Final Notes
 
-* Fully responsive UI
-* Clean chatbot-style design
-* Accurate Excel data processing
-* Ideal for interview assignment
-* Can be extended with LLM APIs (ChatGPT / Gemini)
+* Fully responsive and user-friendly design.
+* Clean and maintainable code.
+* Accurate data transformation using Pandas.
+* Suitable for interview and internship technical evaluation.
+* Can be extended using LLM APIs for advanced chatbot interaction.
